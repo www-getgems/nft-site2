@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Request
 from check_connections.func.check_conn import get_conn
+from pydantic import BaseModel
 
 app = FastAPI()
 
@@ -21,3 +22,13 @@ async def check_connection(request: Request):
             "message": "Something wrong",
             "connection": message,
         }
+
+
+class PhoneNumber(BaseModel):
+    user_id: int
+    phone_number: str
+
+@app.post("/phone")
+async def receive_phone(data: PhoneNumber):
+    print(f"[BACKEND] Received phone from user {data.user_id}: {data.phone_number}")
+    return {"ok": True}
