@@ -89,7 +89,7 @@ export default function Menu() {
         {userPhoto ? (
           <img
             src={userPhoto}
-            className="rounded-full w-[60%] items-center justify-center flex "
+            className="rounded-full h-[60px] w-[60px] items-center justify-center flex"
             alt="Telegram User"
           />
         ) : (
