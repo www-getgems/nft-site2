@@ -37,7 +37,7 @@ export default function Menu() {
         {tabs.map((tab, index) => (
           <div key={index} className="flex flex-col items-center justify-center">
             <button
-              className="items-center flex flex-col justify-center"
+              className="grid grid-cols-1 justify-items-center "
               onClick={() => handleClick(tab)}
             >
               <svg
@@ -46,9 +46,8 @@ export default function Menu() {
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke={activeTab === tab.path ? "#1A75DD" : "currentColor"} // highlight active
-                className="w-6 h-6"
+                className={index === 2 ? "w-6 h-6 ml-2 " : "w-6 h-6" }
               >
-                {/* You can customize the path for each icon */}
                 {index === 0 && (
                   <path
                     strokeLinecap="round"
@@ -74,7 +73,7 @@ export default function Menu() {
                 )}
               </svg>
               <p
-                className={`text-[10px] ml-1 ${
+                className={`text-[10px] ${
                   activeTab === tab.path ? "text-[#1A75DD]" : "text-white"
                 }`}
               >
