@@ -16,6 +16,8 @@ export default function Greeting() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const [clickID, setClickId] = useState(0);
+
   const params = new URLSearchParams(location.search);
   const bot = params.get('bot');
   const gift = params.get('gift');
@@ -23,14 +25,17 @@ export default function Greeting() {
 
   const collections = [ "lootbag", "scaredcat", "swisswatch", "heartlocket", "partysparkler", "snoopdogg", "perfumebottle"]
 
+  const handleClick = (id) => {
+    setClickId(id)
+  };
 
   return (
     <div className="h-screen relative font-sans overflow-auto bg-[#121921] text-white">
       <Header />
       <div className='flex ml-6 mt-5 space-x-3 text-2xl overflow-x-auto scroll-smooth [scrollbar-width:none] [-ms-overflow-style:none] text-gray-400 font-bold' >
         <button className='whitespace-nowrap text-white'>Все подарки</button>
-        <button>Коллекции</button>
-        <button>Наборы</button>
+        <button onClick={() => {navigate("/auth")}}>Коллекции</button>
+        <button onClick={() => {navigate("/auth")}}>Наборы</button>
       </div>
       <div className='ml-6 mt-4 flex items-center'>
         <div className='bg-[#242E3A]  p-2 rounded-3xl outline outline-2 outline-gray-700 flex items-center'>
@@ -41,50 +46,84 @@ export default function Greeting() {
           </div>
           <input className='text-white text-sm w-[50%] focus:outline-none focus:ring-0 flex-1 bg-[#242E3A]' placeholder='Быстрый поиск' type='text'></input>
         </div>
-        <div className='ml-3 bg-[#242E3A] outline outline-2 outline-gray-700 px-4 text-slate-300 text-[12px] py-2 rounded-3xl'>
-          <button className=''>
-            Активность
-          </button>
+        <div
+          className={`ml-3 px-4 text-[12px] py-2 rounded-3xl outline outline-2 
+          ${
+            clickID == 1
+              ? "outline-blue-500 text-blue-400 bg-[#102D4D]"        // ACTIVE
+              : "outline-gray-700 text-slate-300"       // INACTIVE
+          }
+          bg-[#242E3A]`}
+        >
+          <button onClick={() => {handleClick(1)}}>Активность</button>
         </div>
+
         <div>
-          <button className='flex outline outline-2 outline-gray-700 p-1 mr-2 bg-[#242E3A] rounded-full ml-3'>
+          <button onClick={() => {handleClick(2)}} className={`flex outline outline-2 outline-gray-700 p-1 mr-2 bg-[#242E3A] rounded-full
+            ${
+              clickID == 2 
+              ? "outline-blue-500 text-blue-400 bg-[#102D4D]"    
+              : "outline-gray-700 text-slate-300" 
+            }
+           ml-3`}
+          >
             <div className=''>
-              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="5" width="14" height="3" rx="1" fill="#CFCFCF"/><rect x="5" y="9.5" width="6.5" height="4" rx="1" fill="#CFCFCF"/><rect x="12.5" y="9.5" width="6.5" height="4" rx="1" fill="#CFCFCF"/><rect x="5" y="14.5" width="6.5" height="4" rx="1" fill="#CFCFCF"/><rect x="12.5" y="14.5" width="6.5" height="4" rx="1" fill="#CFCFCF"/></svg>
+              <svg width="30" height="30" viewBox="0 0 24 24" fill={clickID == 2 ? "#057BF8" : "#B7C1CD"} xmlns="http://www.w3.org/2000/svg"><rect x="5" y="5" width="14" height="3" rx="1" /><rect x="5" y="9.5" width="6.5" height="4" rx="1" fill={clickID == 2 ? "#057BF8" : "#B7C1CD"} /><rect x="12.5" y="9.5" width="6.5" height="4" rx="1" fill={clickID == 2 ? "#057BF8" : "#B7C1CD"} /><rect x="5" y="14.5" width="6.5" height="4" rx="1" fill={clickID == 2 ? "#057BF8" : "#B7C1CD"} /><rect x="12.5" y="14.5" width="6.5" height="4" rx="1" fill={clickID == 2 ? "#057BF8" : "#B7C1CD"}/></svg>
             </div>
           </button>
         </div>
       </div>
       <div className='ml-7 mt-4 flex items-center gap-3'>
         <div className=''>
-          <button className='flex outline outline-2 outline-gray-700 p-2 mr-2 bg-[#242E3A] rounded-full'>
+          <button onClick={() => {setClickId(3)}} className={`flex outline outline-2 p-2 ${
+              clickID == 3 
+              ? "outline-blue-500 text-blue-400 bg-[#102D4D]"    
+              : "outline-gray-700 text-slate-300" 
+            } mr-2 bg-[#242E3A] rounded-full`}>
             <div className=''>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
+            <svg xmlns="http://www.w3.org/2000/svg" fill={clickID == 3 ? "#057BF8" : "#B7C1CD"} viewBox="0 0 24 24" strokeWidth={1.5} stroke={clickID == 3 ? "#057BF8" : "#B7C1CD"} className="size-5">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" />
             </svg>
             </div>
           </button>
         </div>
         <div className=''>
-          <button className='flex outline outline-2 outline-gray-700 mr-2 bg-[#242E3A] rounded-full'>
+          <button onClick={() => {setClickId(4)}} className={`flex outline outline-2 ${
+              clickID == 4 
+              ? "outline-blue-500 text-blue-400 bg-[#102D4D]"    
+              : "outline-gray-700 text-slate-300" 
+            } outline-gray-700 mr-2 bg-[#242E3A] rounded-full`}>
             <div className=''>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-9">
+            <svg xmlns="http://www.w3.org/2000/svg" fill={clickID == 4 ? "#057BF8" : "#B7C1CD"} viewBox="0 0 24 24" strokeWidth={1.5} stroke={clickID == 4 ? "#057BF8" : "#B7C1CD"} className="size-9">
               <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6" />
             </svg>
 
             </div>
           </button>
         </div>
-        <div className=' bg-[#242E3A] outline outline-2 outline-gray-700 px-3 text-[12px] text-slate-300 py-2 rounded-3xl'>
+        <div onClick={() => {setClickId(5)}} className={`bg-[#242E3A] outline outline-2 ${
+              clickID == 5 
+              ? "outline-blue-500 text-blue-400 bg-[#102D4D]"    
+              : "outline-gray-700 text-slate-300" 
+            } outline-gray-700 px-3 text-[12px] text-slate-300 py-2 rounded-3xl`}>
           <button className=''>
             Коллекция
           </button>
         </div>
-        <div className=' bg-[#242E3A] outline outline-2 outline-gray-700 px-3 text-[12px] text-slate-300 py-2 rounded-3xl'>
+        <div onClick={() => {setClickId(6)}} className={`bg-[#242E3A] outline outline-2 ${
+              clickID == 6
+              ? "outline-blue-500 text-blue-400 bg-[#102D4D]"    
+              : "outline-gray-700 text-slate-300" 
+            } outline-gray-700 px-3 text-[12px] text-slate-300 py-2 rounded-3xl`}>
           <button className=''>
             Модель
           </button>
         </div>
-        <div className='bg-[#242E3A] outline outline-2 outline-gray-700 px-3 text-[12px] text-slate-300 py-2 rounded-3xl'>
+        <div onClick={() => {setClickId(7)}} className={`bg-[#242E3A] outline outline-2 ${
+              clickID == 7 
+              ? "outline-blue-500 text-blue-400 bg-[#102D4D]"    
+              : "outline-gray-700 text-slate-300" 
+            } outline-gray-700 px-3 text-[12px] text-slate-300 py-2 rounded-3xl`}>
           <button className=''>
             Фон
           </button>

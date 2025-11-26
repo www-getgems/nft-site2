@@ -72,11 +72,15 @@ export default function Card(collection) {
           <h1 className="text-lg ml-3 mt-2">{data.title || data.name}</h1>
           <h1 className="text-sm ml-3 text-gray-400">#{data.id}</h1>
         </div>
-        <div className="flex pb-3 items-center">
-          <div className="ml-2 mt-4 bg-[#0080FF] h-fit py-0.5 w-[60%] rounded-3xl px-1 flex items-center justify-center"> 
+        <div className="flex pb-3 items-center justify-center">
+          <div className={` ${
+                    !isNaN(Number(collection.text)) ? "ml-2 mt-4 bg-[#0080FF] h-fit w-[60%] py-0.5 rounded-3xl px-1 flex items-center justify-center" : 
+                    "mt-4 bg-[#0080FF] h-fit w-[90%] py-0.5 rounded-3xl px- flex items-center justify-center"
+                }`}
+                >
             <button
                 className={` ${
-                    !isNaN(Number(collection.text)) ? "text-[15px] ml-4" : "text-sm py-1"
+                    !isNaN(Number(collection.text)) ? "text-[15px] ml-4 " : "text-[16px] py-1 w-full"
                 }`}
                 >
                 {collection.text}
@@ -88,11 +92,11 @@ export default function Card(collection) {
             </svg>
             )}
           </div>
-          <div className="items-center flex ml-auto w-10 h-10 mr-3 mt-4 bg-[#304D68] rounded-full p-2"> 
+          {!isNaN(Number(collection.text)) && (<div className="items-center flex ml-auto w-10 h-10 mr-3 mt-4 bg-[#304D68] rounded-full p-2"> 
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-7">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
             </svg>
-          </div>
+          </div>)}
         </div>
       </div>
     )}
