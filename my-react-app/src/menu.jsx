@@ -51,7 +51,7 @@ export default function Menu() {
             {userPhoto ? (
                 <img src={userPhoto} className="rounded-full w-[60%] items-center justify-center flex" alt="Telegram User" />
             ) : (
-                <img className="rounded-full w-[60%]" src={myImage} />
+                <p>no tg</p>
             )}
         </div>
     </div>
