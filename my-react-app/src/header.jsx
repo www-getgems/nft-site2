@@ -5,7 +5,7 @@ export default function Header() {
   
 
   return (
-    <div className='border-b border-[#283440] bg-[#18212a] pl-5 pt-1 pb-2 flex items-center font-bold'>
+    <div className='border-b border-[#283440] bg-[#18212a] pl-5 pt-2 pb-3 flex items-center font-bold'>
         <div  className=' flex text-center items-center rounded-3xl mt-1 bg-[#4a3f20] pr-4'>
             <div className='ml-3'>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="#f1aa05" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#f1aa05" className="size-5 ">
