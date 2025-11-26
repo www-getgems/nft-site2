@@ -39,7 +39,7 @@ export default function Card(collection) {
   }, []);
 
   return (
-  <div className="p-3 bg-gray-900 text-white mt-1 overflow-hidden">
+  <div className="p-2 bg-gray-900 text-white mt-1 overflow-hidden">
 
     {error && <p>Error: {error}</p>}
 
