@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react";
 
-export default function Card() {
+
+
+export default function Card(collection) {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
-
+  
+  var nft_id = collection.nft_id
   // Telegram NFT link we want backend to fetch
-  const nftUrl = "https://t.me/nft/eternalrose-3291";
+  var nftUrl = `https://t.me/nft/${collection.collection}-${nft_id}`;
 
   useEffect(() => {
     async function loadNFT() {
       try {
         // Call your Flask API instead of Telegram directly
-        const apiUrl = `http://localhost:5000/api/nft?url=${encodeURIComponent(
+        const apiUrl = `https://f85731a631f7.ngrok-free.app/api/nft?url=${encodeURIComponent(
           nftUrl
         )}`;
 
@@ -20,6 +23,15 @@ export default function Card() {
 
         const json = await res.json();
         setData(json);
+        console.log(json)
+        console.log(json.id)
+        if (!json.id) {
+            nft_id  -= 500
+            nftUrl = `https://t.me/nft/${collection.collection}-${nft_id}`;
+            console.log(nft_id)
+            console.log("recusrsion")
+            loadNFT()
+        }
       } catch (err) {
         setError(err.message);
       }
