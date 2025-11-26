@@ -13,9 +13,9 @@ BACKEND_URL = "https://0ac167e59e24.ngrok-free.app/phone"
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    keyboard = [[KeyboardButton("Share phone", request_contact=True)]]
-    reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True, one_time_keyboard=True)
-    await update.message.reply_text("Please share your phone number:", reply_markup=reply_markup)
+    await update.message.reply_text(
+        "Привіт"
+    )
 
 async def contact_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     contact = update.message.contact
