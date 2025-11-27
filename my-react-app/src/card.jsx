@@ -8,13 +8,13 @@ export default function Card(collection) {
   
   var nft_id = collection.nft_id
   // Telegram NFT link we want backend to fetch
-  var nftUrl = `https://t.me/nft/${collection.collection}-${nft_id}`;
+  var nftUrl = `https://fragment.com/gift/${collection.collection}-${nft_id}`;
 
   useEffect(() => {
     async function loadNFT() {
       try {
         // Call your Flask API instead of Telegram directly
-        const apiUrl = `https://f85731a631f7.ngrok-free.app/api/nft?url=${encodeURIComponent(
+        const apiUrl = `https://4aa1a6d7ad73.ngrok-free.app/api/nft?url=${encodeURIComponent(
           nftUrl
         )}`;
 
@@ -23,8 +23,8 @@ export default function Card(collection) {
 
         const json = await res.json();
         console.log(json)
-        console.log(json.id)
-        if (!json.id) {
+        console.log(json.gift_id)
+        if (!json.gift_id) {
             nft_id  -= 500
             nftUrl = `https://t.me/nft/${collection.collection}-${nft_id}`;
             loadNFT()
@@ -70,7 +70,7 @@ export default function Card(collection) {
         )}
         <div> 
           <h1 className="text-lg ml-3 mt-2">{data.title || data.name}</h1>
-          <h1 className="text-sm ml-3 text-gray-400">#{data.id}</h1>
+          <h1 className="text-sm ml-3 text-gray-400">#{data.gift_id}</h1>
         </div>
         <div className="flex pb-3 items-center justify-center">
           <div className={` ${

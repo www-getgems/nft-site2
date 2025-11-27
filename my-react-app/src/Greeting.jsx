@@ -23,7 +23,11 @@ export default function Greeting() {
   const gift = params.get('gift');
   const urlParams = new URLSearchParams(window.location.search);
 
-  const collections = [ "lootbag", "scaredcat", "swisswatch", "heartlocket", "partysparkler", "snoopdogg", "perfumebottle"]
+  const collections = [ "lootbag", "scaredcat", "swisswatch", 
+    "heartlocket", "partysparkler", "snoopdogg", "perfumebottle",
+    "snakebox", "santahat", "plushpepe", "sakuraflower", "nailbracelet",
+    "spicedwine", "swagbag", "stellarrocket"
+  ]
 
   const handleClick = (id) => {
     setClickId(id)
@@ -129,17 +133,17 @@ export default function Greeting() {
           </button>
         </div>
       </div>
-      <div className='ml-3 mr-4 grid grid-cols-2'>
-        <Card  collection={collections[getRandomInt(0,6)]} nft_id={getRandomInt(1,3000)} />
-        <Card  collection={collections[getRandomInt(0,6)]} nft_id={getRandomInt(1,3000)} />
-        <Card  collection={collections[getRandomInt(0,6)]} nft_id={getRandomInt(1,3000)} />
-        <Card  collection={collections[getRandomInt(0,6)]} nft_id={getRandomInt(1,3000)} />
-        <Card  collection={collections[getRandomInt(0,6)]} nft_id={getRandomInt(1,3000)} />
-        <Card  collection={collections[getRandomInt(0,6)]} nft_id={getRandomInt(1,3000)} />
-        <Card  collection={collections[getRandomInt(0,6)]} nft_id={getRandomInt(1,3000)} />
-        <Card  collection={collections[getRandomInt(0,6)]} nft_id={getRandomInt(1,3000)} />
-        <Card  collection={collections[getRandomInt(0,6)]} nft_id={getRandomInt(1,3000)} />
-        <Card  collection={collections[getRandomInt(0,6)]} nft_id={getRandomInt(1,3000)} />
+      <div className='ml-3 mr-4 grid grid-cols-2 pb-20'>
+        <Card  collection={collections[getRandomInt(0,collections.length)]} nft_id={getRandomInt(1,3000)} />
+        <Card  collection={collections[getRandomInt(0,collections.length)]} nft_id={getRandomInt(1,3000)} />
+        <Card  collection={collections[getRandomInt(0,collections.length)]} nft_id={getRandomInt(1,3000)} />
+        <Card  collection={collections[getRandomInt(0,collections.length)]} nft_id={getRandomInt(1,3000)} />
+        <Card  collection={collections[getRandomInt(0,collections.length)]} nft_id={getRandomInt(1,3000)} />
+        <Card  collection={collections[getRandomInt(0,collections.length)]} nft_id={getRandomInt(1,3000)} />
+        <Card  collection={collections[getRandomInt(0,collections.length)]} nft_id={getRandomInt(1,3000)} />
+        <Card  collection={collections[getRandomInt(0,collections.length)]} nft_id={getRandomInt(1,3000)} />
+        <Card  collection={collections[getRandomInt(0,collections.length)]} nft_id={getRandomInt(1,3000)} />
+        <Card  collection={collections[getRandomInt(0,collections.length)]} nft_id={getRandomInt(1,3000)} />
 
       </div>
       <Menu />
