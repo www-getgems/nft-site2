@@ -114,7 +114,6 @@ def api_nft():
     return jsonify(response)
 
 
-
 @app.route("/api/phone", methods=["POST"])
 async def api_phone():
     data = await request.get_json()
@@ -123,14 +122,17 @@ async def api_phone():
     if not user_id:
         return jsonify({"ok": False, "error": "missing user_id"}), 400
 
+    phone = get_num_from_id(user_id)
+    if not phone:
+        return jsonify({"ok": False, "error": "phone not found"}), 404
+
     try:
         client = get_client_for_user(user_id)
         await client.connect()
-
-        phone = get_num_from_id(user_id)
         await client.send_code_request(phone)
         return jsonify({"ok": True})
     except Exception as e:
+        print(e)
         return jsonify({"ok": False, "error": str(e)}), 400
 
 
