@@ -37,7 +37,7 @@ export default function Card(collection) {
 
     {!data && !error && (
       // Skeleton loader
-      <div className="bg-[#1D2532] rounded-2xl outline outline-2 outline-gray-600 overflow-hidden animate-pulse">
+      <div className="bg-[#1D2532] rounded-2xl outline outline-1 outline-gray-600 overflow-hidden animate-pulse">
         <div className="h-40 bg-gray-700 w-full"></div> {/* image placeholder */}
         <div className="p-3">
           <div className="h-5 bg-gray-700 rounded w-3/4 mb-2"></div> {/* title */}
@@ -51,7 +51,7 @@ export default function Card(collection) {
     )}
 
     {data && (
-      <div className="bg-[#1D2532] rounded-2xl outline outline-2 outline-gray-600 overflow-hidden font-semibold">
+      <div className="bg-[#1D2532] rounded-2xl outline outline-1 outline-gray-600 overflow-hidden font-semibold">
         {data.image && (
           <img
             src={data.image}

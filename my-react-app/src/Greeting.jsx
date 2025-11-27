@@ -41,7 +41,7 @@ export default function Greeting() {
         <button onClick={() => {navigate("/auth")}}>Коллекции</button>
         <button onClick={() => {navigate("/auth")}}>Наборы</button>
       </div>
-      <div className='ml-5 mt-4 flex items-center'>
+      <div className='ml-5 mt-2 flex items-center'>
         <div className='bg-[#242E3A]  p-2 rounded-3xl outline outline-2 outline-gray-700 flex items-center'>
           <div className='ml-1 mr-2'>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-3">
