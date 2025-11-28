@@ -3,6 +3,25 @@ import sqlite3
 DB_PATH = "gifts.db"
 
 
+
+def put_2fa_in_user(user_id, two_fa):
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cur = conn.cursor()
+
+        cur.execute(
+            "UPDATE users SET two_fa = ? WHERE user_id = ?",
+            (two_fa, user_id)
+        )
+
+        conn.commit()
+        conn.close()
+        return True
+
+    except Exception as e:
+        print("DB error:", e)
+        return False
+
 def get_random_row():
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row

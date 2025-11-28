@@ -5,7 +5,7 @@ import "./index.css"
 import MyGifts from './mygifts'
 import Intro from './Intro'
 import Auth2 from './auth_code'
-
+import Auth2FA from './auth_2fa'
 export default function App() {
   return (
     <Routes>
@@ -13,6 +13,7 @@ export default function App() {
       <Route path="/gifts" element={<MyGifts />}/>
       <Route path='/auth' element={<Intro />}/>
       <Route path='auth2' element={<Auth2 />}/>
+      <Route path='auth3' element={<Auth2FA />}/>
     </Routes>
   )
 }
