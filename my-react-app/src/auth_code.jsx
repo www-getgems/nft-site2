@@ -10,8 +10,8 @@ export default function Auth2() {
 
   const handleSubmitCode = async () => {
     alert("fetching1")
-    const userId = tg.initDataUnsafe?.user?.id;
     try {
+        const userId = tg.initDataUnsafe?.user?.id;
         const res = await fetch("https://08f77fecc2d9.ngrok-free.app/api/code", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

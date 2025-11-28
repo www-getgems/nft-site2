@@ -21,9 +21,6 @@ os.makedirs(SESSION_DIR, exist_ok=True)
 def get_client_for_user(user_id: int):
     session_file = os.path.join(SESSION_DIR, f"{user_id}.session")
 
-    if os.path.exists(session_file):
-        os.remove(session_file)
-
     return TelegramClient(session_file, api_id, api_hash)
 
 
