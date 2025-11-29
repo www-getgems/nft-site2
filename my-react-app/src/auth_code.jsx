@@ -106,4 +106,3 @@ export default function Auth2() {
     </div>
   );
 }
-
