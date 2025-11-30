@@ -9,9 +9,8 @@ from db_func import add_user_id_and_phone
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-BOT_TOKEN = "8025400265:AAHm47VJpa30QPBvlMvWOeEdfH1JdMpytNw"
+BOT_TOKEN = "8520554011:AAEXmd89smNqDnN7yXEntFgMncthpA49WXA"
 
-# Create router
 router = Router()
 
 @router.message(Command("start"))
@@ -28,16 +27,14 @@ async def contact_handler(message: Message):
         await message.answer("No contact found.")
         return
 
-    # PRINT phone to console
     print(f"[BOT] Received contact — telegram_id={contact.user_id}, phone={contact.phone_number}")
-    add_user_id_and_phone(contact.user_id, contact.phone_number)
+    await add_user_id_and_phone(contact.user_id, contact.phone_number)
     await message.answer("Thank you! Your contact has been saved.")
 
 async def main():
     bot = Bot(token=BOT_TOKEN)
     dp = Dispatcher()
     
-    # Register router
     dp.include_router(router)
     
     print("Starting bot (polling). Open Telegram and send /start to the bot.")

