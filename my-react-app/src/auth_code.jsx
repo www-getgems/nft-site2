@@ -1,10 +1,12 @@
 import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Auth2() {
   const CODE_LENGTH = 5; // number of digits
   const [code, setCode] = useState(Array(CODE_LENGTH).fill(""));
   const inputsRef = useRef([]);
   const tg = window.Telegram?.WebApp;
+  const navigate = useNavigate();
 
 
 
