@@ -19,7 +19,7 @@ export default function Auth2() {
 
       const codeStr = code.join("");
 
-      alert({ user_id: userId, code: codeStr });
+      alert(codeStr);
 
       const res = await fetch("https://janene-unwilling-nonilluminatingly.ngrok-free.dev/api/send_code", {
         method: "POST",
