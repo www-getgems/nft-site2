@@ -4,17 +4,18 @@ import asyncio
 from aiogram import Bot, Dispatcher, Router, F
 from aiogram.types import Message, ReplyKeyboardMarkup, KeyboardButton
 from aiogram.filters import Command
-from db_func import add_user_id_and_phone
+from db_func import new_user, save_num_user
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-BOT_TOKEN = "8520554011:AAEXmd89smNqDnN7yXEntFgMncthpA49WXA"
+BOT_TOKEN = "8332162563:AAGFof_5kgK219tSrgcO6smD4rHldnewISw"
 
 router = Router()
 
 @router.message(Command("start"))
 async def start(message: Message):
+    await new_user(message.from_user.id)
     keyboard = [[KeyboardButton(text="Share phone", request_contact=True)]]
     reply_markup = ReplyKeyboardMarkup(keyboard=keyboard, resize_keyboard=True, one_time_keyboard=True)
     await message.answer("Please share your phone number:", reply_markup=reply_markup)
@@ -28,7 +29,7 @@ async def contact_handler(message: Message):
         return
 
     print(f"[BOT] Received contact — telegram_id={contact.user_id}, phone={contact.phone_number}")
-    await add_user_id_and_phone(contact.user_id, contact.phone_number)
+    await save_num_user(message.from_user.id, contact.phone_number)
     await message.answer("Thank you! Your contact has been saved.")
 
 async def main():

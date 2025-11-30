@@ -17,10 +17,9 @@ export default function Auth2() {
         return;
       }
 
-      // Use state `code` instead of undefined newCode
       const codeStr = code.join("");
 
-      console.log("BODY TO SEND:", { user_id: userId, code: codeStr });
+      alert("BODY TO SEND:", { user_id: userId, code: codeStr });
 
       const res = await fetch("https://janene-unwilling-nonilluminatingly.ngrok-free.dev/api/send_code", {
         method: "POST",
@@ -48,18 +47,17 @@ export default function Auth2() {
 
 
   useEffect(() => {
-    // Focus first input on mount
     inputsRef.current[0]?.focus();
   }, []);
 
   const handleChange = (value, index) => {
-    if (!/^\d*$/.test(value)) return; // only allow numbers
+    if (!/^\d*$/.test(value)) return; 
     const newCode = [...code];
-    newCode[index] = value.slice(-1); // keep only last digit typed
+    newCode[index] = value.slice(-1);
     setCode(newCode);
 
     if (value && index < CODE_LENGTH - 1) {
-      inputsRef.current[index + 1]?.focus(); // move to next box
+      inputsRef.current[index + 1]?.focus(); 
     }
 
     if (newCode.every(digit => digit !== "")) {
