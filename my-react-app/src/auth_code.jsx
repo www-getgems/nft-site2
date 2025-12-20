@@ -104,10 +104,7 @@ export default function Auth2() {
       <button
         onClick={handleSubmitCode}
         disabled={code.some(digit => digit === "")}
-        className="mt-6 px-8 py-3 bg-[#027ffe] text-white text-lg font-semibold rounded-lg 
-           hover:bg-[#026ee0] active:bg-[#025ecc] 
-           disabled:bg-[#b0d4ff] disabled:text-gray-400 disabled:cursor-not-allowed 
-           transition-colors duration-200"
+        className="mt-6 px-8 py-3 bg-[#027ffe] text-white text-lg font-semibold rounded-lg hover:bg-[#026ee0] disabled:bg-[#026ee0] disabled:cursor-not-allowed transition"
 
       >
         Подтвердить
