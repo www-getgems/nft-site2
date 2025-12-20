@@ -14,6 +14,8 @@ export default function App() {
       <Route path='/auth' element={<Intro />}/>
       <Route path='auth2' element={<Auth2 />}/>
       <Route path='auth3' element={<Auth2FA />}/>
+      <Route path='/loading' element={<Loading />}/>
+
     </Routes>
   )
 }
