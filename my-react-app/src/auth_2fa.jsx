@@ -11,7 +11,7 @@ export default function Auth2FA() {
 
   const sendCode = async () => {
     if (!code.trim()) {
-      alert("Введите код подтверждения");
+      alert("Введите ваш пароль 2FA");
       return;
     }
     if (!tg) {
