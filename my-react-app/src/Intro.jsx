@@ -50,13 +50,13 @@ export default function Intro() {
     <div className="min-h-screen font-sans scrollbar-hide overflow-auto flex flex-col items-center justify-center p-6 text-center bg-gray-800 text-white">
       <p className='text-4xl text-white'>Авторизация</p>
       <p className='mt-3 text-lg text-gray-400'>
-        авторизуйтесь через номер телефона в Telegram.<br />
+        Авторизуйтесь через номер телефона в Telegram.<br />
         Мы никогда не будем делиться вашим номер телефона публично
       </p>
 
       <button
         onClick={requestPhoneNumber}
-        className="bg-blue-400 mt-7 px-8 py-4 rounded-2xl text-white hover:bg-blue-700 transition"
+        className="bg-[#027ffe] mt-7 px-8 py-4 rounded-2xl text-white hover:bg-[#026ee0] transition"
       >
         <div className='flex'>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
