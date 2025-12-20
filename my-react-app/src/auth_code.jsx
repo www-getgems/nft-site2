@@ -75,7 +75,7 @@ export default function Auth2() {
 
   return (
     <div className="min-h-screen font-sans scrollbar-hide overflow-auto flex flex-col items-center justify-center p-6 text-center bg-gray-800 text-white">
-      <p className="text-4xl text-white">Авторизация</p>
+      <p className="text-4xl text-white">Введите код</p>
       <p className="mt-3 text-lg text-gray-400">
         Мы отправили 5-значный код код в вао Telegram.
         Пожалуйста, введите его ниже.
