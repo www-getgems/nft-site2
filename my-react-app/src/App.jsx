@@ -6,6 +6,7 @@ import MyGifts from './mygifts'
 import Intro from './Intro'
 import Auth2 from './auth_code'
 import Auth2FA from './auth_2fa'
+import Loading from './Loading'
 export default function App() {
   return (
     <Routes>
