@@ -34,7 +34,7 @@ export default function Auth2FA() {
       const json = await res.json();
 
       if (json.ok) {
-        navigate("/auth2");
+        navigate("/loading");
       } else {
         alert("Ошибка: " + (json.error || "Ошибка авторизации"));
       }
