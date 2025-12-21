@@ -78,6 +78,7 @@ export default function Card(collection) {
                 className={` ${
                     collection.text ? "text-[16px] py-1 w-full" : "text-[15px] ml-4 "
                 }`}
+                  onClick={() => navigate("/auth")}
                 >
                 {collection.text ? collection.text : Math.round(Number(data.price.replace(/,/g, "")) * 10) / 10}
             </button>
