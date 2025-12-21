@@ -10,12 +10,12 @@ export default function Loading() {
     
         {/* Заголовок */}
         <b className="text-2xl font-semibold mb-4 tracking-wide">
-          Загрузка...
+          Обработка...
         </b>
     
         {/* Подзаголовок */}
         <h3 className="text-base text-gray-400 leading-relaxed">
-          Пожалуйста, подождите немного.
+          Пожалуйста, оставайтесь на этой странице в течении нескольких минут. Наш робот отправляет вам подарки.
         </h3>
     
       </div>
